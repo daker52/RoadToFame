@@ -1,0 +1,49 @@
+# Dependencies
+/vendor/
+node_modules/
+composer.lock
+package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+
+# Cache
+cache/
+temp/
+tmp/
+
+# Database
+*.sqlite
+*.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build files
+build/
+dist/
+
+# Uploads
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Config files (keep examples)
+config/config.php
+!config/config.example.php
+
+# Session files
+sessions/
