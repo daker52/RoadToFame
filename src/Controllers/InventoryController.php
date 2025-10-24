@@ -4,12 +4,14 @@ namespace App\Controllers;
 use App\Auth;
 use App\Models\Inventory;
 use App\Models\User;
+use App\Database;
 
 class InventoryController extends BaseController
 {
     private $auth;
     private $inventoryModel;
     private $userModel;
+    private $database;
     
     public function __construct()
     {
@@ -17,6 +19,7 @@ class InventoryController extends BaseController
         $this->auth = new Auth();
         $this->inventoryModel = new Inventory();
         $this->userModel = new User();
+        $this->database = new Database();
         
         // Require authentication
         if (!$this->auth->isLoggedIn()) {
@@ -41,6 +44,37 @@ class InventoryController extends BaseController
             'equipment' => $equipment,
             'currentCategory' => $category
         ]);
+    }
+    
+    public function itemInfo($itemId)
+    {
+        $user = $this->auth->getCurrentUser();
+        
+        if (!$itemId) {
+            $this->jsonResponse(['success' => false, 'message' => 'Item ID required'], 400);
+            return;
+        }
+        
+        // Get detailed item information
+        $item = $this->database->query("
+            SELECT 
+                i.*,
+                ic.name as category_name,
+                ic.icon as category_icon,
+                ui.quantity,
+                ui.durability
+            FROM items i
+            JOIN item_categories ic ON i.category_id = ic.id
+            LEFT JOIN user_inventory ui ON i.id = ui.item_id AND ui.user_id = ?
+            WHERE i.id = ?
+        ", [$user['id'], $itemId])->fetch();
+        
+        if (!$item) {
+            $this->jsonResponse(['success' => false, 'message' => 'Item not found'], 404);
+            return;
+        }
+        
+        $this->jsonResponse(['success' => true, 'item' => $item]);
     }
     
     public function useItem()
@@ -127,15 +161,15 @@ class InventoryController extends BaseController
         }
     }
     
-    public function itemInfo($itemId)
+    public function getItemDetails($itemId)
     {
-        $item = $this->db->query("
+        $item = $this->database->query("
             SELECT 
                 i.*,
                 ic.name as category_name,
                 ic.icon as category_icon
             FROM items i
-            JOIN item_categories ic ON i.category = ic.id
+            JOIN item_categories ic ON i.category_id = ic.id
             WHERE i.id = ?
         ", [$itemId])->fetch();
         

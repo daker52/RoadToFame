@@ -1,0 +1,454 @@
+/* Wasteland Dominion - Game Interface CSS */
+
+/* Game Layout */
+.game-interface {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 78, 137, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.game-header {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid var(--primary-color);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.game-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.game-logo .icon {
+  margin-right: 0.5rem;
+  font-size: 2rem;
+}
+
+.game-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.game-menu a {
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.game-menu a:hover,
+.game-menu a.active {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Player Stats Bar */
+.player-stats {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-bar {
+  width: 100px;
+  height: 8px;
+  background: var(--background-dark);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success-color), var(--accent-color));
+  transition: width 0.3s ease;
+}
+
+.stat-fill.health { background: linear-gradient(90deg, #dc3545, #ff6b6b); }
+.stat-fill.energy { background: linear-gradient(90deg, #17a2b8, #20c997); }
+
+/* Game Dashboard */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.dashboard-card {
+  background: var(--background-medium);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.dashboard-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Map Interface */
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background: 
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="1" fill="%23333"/></svg>') repeat,
+    linear-gradient(45deg, #2d2d2d 0%, #1a1a1a 100%);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  border: 2px solid var(--background-light);
+}
+
+.map-location {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+  background: var(--background-medium);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.map-location:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px var(--primary-color);
+}
+
+.map-location.current {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 15px var(--accent-color);
+  animation: pulse 2s infinite;
+}
+
+.map-location.safe { border-color: var(--success-color); }
+.map-location.dangerous { border-color: var(--danger-color); }
+
+.location-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26, 26, 26, 0.95);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.map-location:hover .location-tooltip {
+  opacity: 1;
+}
+
+/* Inventory Interface */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  background: var(--background-medium);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.inventory-slot {
+  aspect-ratio: 1;
+  background: var(--background-dark);
+  border: 2px solid var(--background-light);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.inventory-slot:hover {
+  border-color: var(--primary-color);
+}
+
+.inventory-slot.occupied {
+  background: var(--background-light);
+  border-color: var(--accent-color);
+}
+
+.inventory-slot.equipped {
+  border-color: var(--success-color);
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
+}
+
+.item-icon {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.item-quantity {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: var(--primary-color);
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 10px;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* Combat Interface */
+.combat-arena {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  min-height: 400px;
+}
+
+.combatant {
+  text-align: center;
+}
+
+.combatant-avatar {
+  width: 120px;
+  height: 120px;
+  background: var(--background-light);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  border: 3px solid var(--primary-color);
+}
+
+.combatant.enemy .combatant-avatar {
+  border-color: var(--danger-color);
+}
+
+.health-bar {
+  background: var(--background-dark);
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success-color), #20c997);
+  transition: width 0.5s ease;
+}
+
+.combat-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.combat-log {
+  background: var(--background-dark);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  height: 200px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.combat-log .log-entry {
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--background-light);
+}
+
+.log-entry.player { color: var(--info-color); }
+.log-entry.enemy { color: var(--danger-color); }
+.log-entry.system { color: var(--text-secondary); }
+
+/* Quest Interface */
+.quest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.quest-item {
+  background: var(--background-medium);
+  border-left: 4px solid var(--primary-color);
+  padding: 1.5rem;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  transition: var(--transition);
+}
+
+.quest-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--box-shadow);
+}
+
+.quest-item.completed {
+  border-left-color: var(--success-color);
+  opacity: 0.8;
+}
+
+.quest-item.failed {
+  border-left-color: var(--danger-color);
+  opacity: 0.6;
+}
+
+.quest-title {
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quest-progress {
+  background: var(--background-dark);
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  transition: width 0.3s ease;
+}
+
+/* Crafting Interface */
+.crafting-workspace {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.recipe-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.recipe-item {
+  background: var(--background-light);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.recipe-item:hover,
+.recipe-item.selected {
+  background: var(--primary-color);
+  color: white;
+}
+
+.crafting-area {
+  border: 2px dashed var(--background-light);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.crafting-area.active {
+  border-color: var(--primary-color);
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.crafting-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--background-dark);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.crafting-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+  transition: width 0.2s ease;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .game-nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .game-menu {
+    gap: 1rem;
+  }
+  
+  .player-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .combat-arena {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .crafting-workspace {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .inventory-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .map-container {
+    height: 400px;
+  }
+}

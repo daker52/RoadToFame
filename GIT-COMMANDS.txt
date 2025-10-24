@@ -1,0 +1,57 @@
+# Git Commands for Wasteland Dominion → RoadToFame Repository
+
+# POZNÁMKA: Git musí být nainstalován z https://git-scm.com/download/win
+# Po instalaci restartujte PowerShell a spusťte následující commands:
+
+# 1. Inicializace Git repository
+git init
+
+# 2. Konfigurace Git (nahraďte svými údaji)
+git config user.name "Your Name"
+git config user.email "your.email@example.com"
+
+# 3. Přidání všech souborů
+git add .
+
+# 4. První commit
+git commit -m "Complete Wasteland Dominion: Post-apocalyptic MMO
+
+- Full PHP MVC game engine with 89 files
+- Turn-based combat system with AI enemies  
+- Complete economy & trading system
+- Guild multiplayer features
+- Quest system with multiple types
+- Inventory & item management
+- 8 explorable wasteland locations
+- Admin panel with full management
+- Webhosting-ready build (140KB package)
+- Real-time WebSocket support
+- ~15,000 lines of code
+- Zero external dependencies for production"
+
+# 5. Připojení k RoadToFame repository
+git remote add origin https://github.com/daker52/RoadToFame.git
+
+# 6. Pull existujícího obsahu (pokud nějaký je)
+git pull origin main --allow-unrelated-histories
+
+# 7. Push na GitHub
+git branch -M main
+git push -u origin main
+
+# 8. Vytvoření release tagu
+git tag -a v1.0.0 -m "Release v1.0.0: Wasteland Dominion Complete
+
+Features:
+- Complete post-apocalyptic MMO in pure PHP
+- All major game systems implemented
+- Webhosting deployment ready (no Node.js/Composer needed)
+- Professional documentation & setup
+- MIT License open source"
+
+git push origin v1.0.0
+
+# Pro budoucí změny:
+# git add .
+# git commit -m "Update: Description of changes"
+# git push

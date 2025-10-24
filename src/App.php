@@ -29,8 +29,11 @@ class App
     
     private function loadEnvironment(): void
     {
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-        $dotenv->safeLoad();
+        // Load .env file only if Dotenv is available (dev environment)
+        if (class_exists('\Dotenv\Dotenv')) {
+            $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+            $dotenv->safeLoad();
+        }
     }
     
     private function loadConfig(): void
