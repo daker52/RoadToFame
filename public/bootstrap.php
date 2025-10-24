@@ -49,6 +49,31 @@ $router->get('/auth/profile', 'AuthController@profile');
 $router->post('/auth/profile', 'AuthController@updateProfile');
 $router->post('/auth/change-password', 'AuthController@changePassword');
 
+// Admin routes
+$router->get('/admin', 'AdminController@index');
+$router->get('/admin/users', 'AdminController@users');
+$router->post('/admin/user-action', 'AdminController@userAction');
+$router->get('/admin/settings', 'AdminController@settings');
+$router->post('/admin/settings', 'AdminController@settings');
+
+// Game routes
+$router->get('/map', 'MapController@index');
+$router->get('/map/location/{id}', 'MapController@location');
+$router->post('/map/travel', 'MapController@travel');
+$router->post('/map/explore', 'MapController@explore');
+
+$router->get('/character', 'CharacterController@profile');
+$router->post('/character/upgrade', 'CharacterController@upgradeAttribute');
+$router->post('/character/experience', 'CharacterController@gainExperience');
+
+$router->get('/quests', 'QuestController@index');
+$router->get('/quests/quest/{id}', 'QuestController@quest');
+$router->post('/quests/accept', 'QuestController@accept');
+$router->post('/quests/abandon', 'QuestController@abandon');
+$router->post('/quests/complete', 'QuestController@complete');
+$router->post('/quests/progress', 'QuestController@updateProgress');
+$router->get('/quests/npc/{id}', 'QuestController@npcDialog');
+
 // Game routes group
 $router->group('/game', function($router) {
     $router->get('/dashboard', 'GameController@dashboard');

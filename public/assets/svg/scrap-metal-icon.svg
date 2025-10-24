@@ -1,0 +1,44 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="resource-icon">
+    <defs>
+        <linearGradient id="metalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#8e9aaf"/>
+            <stop offset="50%" style="stop-color:#cbd2d9"/>
+            <stop offset="100%" style="stop-color:#5a6375"/>
+        </linearGradient>
+        
+        <filter id="metallic">
+            <feGaussianBlur stdDeviation="0.5"/>
+            <feColorMatrix values="1.2 0.1 0.1 0 0
+                                   0.1 1.2 0.1 0 0
+                                   0.1 0.1 1.2 0 0
+                                   0 0 0 1 0"/>
+        </filter>
+    </defs>
+    
+    <!-- Gear base -->
+    <circle cx="50" cy="50" r="35" fill="url(#metalGradient)" filter="url(#metallic)"/>
+    
+    <!-- Gear teeth -->
+    <g fill="url(#metalGradient)">
+        <rect x="47" y="10" width="6" height="10" rx="2"/>
+        <rect x="47" y="80" width="6" height="10" rx="2"/>
+        <rect x="10" y="47" width="10" height="6" rx="2"/>
+        <rect x="80" y="47" width="10" height="6" rx="2"/>
+        
+        <!-- Diagonal teeth -->
+        <rect x="72" y="22" width="8" height="4" rx="2" transform="rotate(45 76 24)"/>
+        <rect x="20" y="22" width="8" height="4" rx="2" transform="rotate(-45 24 24)"/>
+        <rect x="72" y="74" width="8" height="4" rx="2" transform="rotate(-45 76 76)"/>
+        <rect x="20" y="74" width="8" height="4" rx="2" transform="rotate(45 24 76)"/>
+    </g>
+    
+    <!-- Center hole -->
+    <circle cx="50" cy="50" r="15" fill="#2d1810"/>
+    <circle cx="50" cy="50" r="12" fill="#1a1a1a"/>
+    
+    <!-- Shine effect -->
+    <ellipse cx="40" cy="35" rx="8" ry="12" fill="#ffffff" opacity="0.3" transform="rotate(-30 40 35)"/>
+    
+    <!-- Rotation animation -->
+    <animateTransform attributeName="transform" type="rotate" values="0 50 50;360 50 50" dur="8s" repeatCount="indefinite"/>
+</svg>

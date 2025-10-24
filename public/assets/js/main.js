@@ -119,14 +119,49 @@ class WastelandGame {
         // Basic validation
         const password = formData.get('password');
         const passwordConfirm = formData.get('password_confirm');
+        const username = formData.get('username');
+        const email = formData.get('email');
 
-        if (password !== passwordConfirm) {
-            this.showNotification('Hesla se neshodují!', 'error');
-            return;
+        // Clear previous errors
+        this.clearFormErrors(form);
+
+        let hasErrors = false;
+
+        // Validate username
+        if (!username || username.length < 3 || username.length > 30) {
+            this.showFieldError(form, 'username', 'Uživatelské jméno musí mít 3-30 znaků');
+            hasErrors = true;
         }
 
-        if (password.length < 6) {
-            this.showNotification('Heslo musí mít alespoň 6 znaků!', 'error');
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+            this.showFieldError(form, 'username', 'Pouze písmena, čísla a podtržítka');
+            hasErrors = true;
+        }
+
+        // Validate email
+        if (!email || !this.isValidEmail(email)) {
+            this.showFieldError(form, 'email', 'Zadej platný email');
+            hasErrors = true;
+        }
+
+        // Validate passwords
+        if (!password || password.length < 6) {
+            this.showFieldError(form, 'password', 'Heslo musí mít alespoň 6 znaků');
+            hasErrors = true;
+        }
+
+        if (password !== passwordConfirm) {
+            this.showFieldError(form, 'password_confirm', 'Hesla se neshodují');
+            hasErrors = true;
+        }
+
+        // Check terms agreement
+        if (!formData.get('terms')) {
+            this.showNotification('Musíš souhlasit s podmínkami použití', 'error');
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
             return;
         }
 
@@ -135,23 +170,39 @@ class WastelandGame {
         try {
             const response = await fetch(form.action, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
             });
 
             const result = await response.json();
 
             if (result.success) {
-                this.showNotification('Registrace úspěšná! Vítej ve Wastelandu!', 'success');
-                this.closeModal('registerModal');
+                // Hide form and show success message
+                form.style.display = 'none';
+                document.getElementById('registerSuccess').style.display = 'block';
                 
-                // Redirect after short delay
+                this.showNotification('🎉 Registrace úspěšná! Vítej ve Wastelandu!', 'success');
+                
+                // Redirect after delay
                 setTimeout(() => {
-                    window.location.href = 'game/dashboard.php';
-                }, 2000);
+                    window.location.href = result.data?.redirect || '/game/character-setup';
+                }, 3000);
             } else {
-                this.showNotification(result.message || 'Chyba při registraci', 'error');
+                // Handle validation errors
+                if (result.errors) {
+                    Object.keys(result.errors).forEach(field => {
+                        result.errors[field].forEach(error => {
+                            this.showFieldError(form, field, error);
+                        });
+                    });
+                } else {
+                    this.showNotification(result.message || 'Chyba při registraci', 'error');
+                }
             }
         } catch (error) {
+            console.error('Registration error:', error);
             this.showNotification('Chyba sítě. Zkus to znovu.', 'error');
         } finally {
             this.hideLoading(form);
@@ -163,32 +214,93 @@ class WastelandGame {
         const form = e.target;
         const formData = new FormData(form);
 
+        // Clear previous errors
+        this.clearFormErrors(form);
+
+        // Basic validation
+        const username = formData.get('username');
+        const password = formData.get('password');
+
+        if (!username) {
+            this.showFieldError(form, 'username', 'Zadej uživatelské jméno nebo email');
+            return;
+        }
+
+        if (!password) {
+            this.showFieldError(form, 'password', 'Zadej heslo');
+            return;
+        }
+
         this.showLoading(form);
 
         try {
             const response = await fetch(form.action, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
             });
 
             const result = await response.json();
 
             if (result.success) {
-                this.showNotification('Přihlášení úspěšné! Vítej zpět!', 'success');
-                this.closeModal('loginModal');
+                // Hide form and show success message
+                form.style.display = 'none';
+                document.getElementById('loginSuccess').style.display = 'block';
+                
+                this.showNotification('🎮 Přihlášení úspěšné! Vítej zpět!', 'success');
                 
                 // Redirect
                 setTimeout(() => {
-                    window.location.href = 'game/dashboard.php';
-                }, 1500);
+                    window.location.href = result.data?.redirect || '/game/dashboard';
+                }, 2000);
             } else {
-                this.showNotification(result.message || 'Chyba při přihlášení', 'error');
+                this.showNotification(result.message || 'Neplatné přihlašovací údaje', 'error');
+                
+                // Shake the form for visual feedback
+                form.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    form.style.animation = '';
+                }, 500);
             }
         } catch (error) {
+            console.error('Login error:', error);
             this.showNotification('Chyba sítě. Zkus to znovu.', 'error');
         } finally {
             this.hideLoading(form);
         }
+    }
+
+    clearFormErrors(form) {
+        // Remove existing error messages
+        form.querySelectorAll('.field-error').forEach(error => error.remove());
+        
+        // Remove error styling from inputs
+        form.querySelectorAll('.input-error').forEach(input => {
+            input.classList.remove('input-error');
+        });
+    }
+
+    showFieldError(form, fieldName, message) {
+        const field = form.querySelector(`[name="${fieldName}"]`);
+        if (!field) return;
+
+        // Add error styling to input
+        field.classList.add('input-error');
+
+        // Create error message element
+        const errorElement = document.createElement('span');
+        errorElement.className = 'field-error';
+        errorElement.textContent = message;
+
+        // Insert after the field
+        field.parentNode.insertBefore(errorElement, field.nextSibling);
+    }
+
+    isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     }
 
     showLoading(form) {

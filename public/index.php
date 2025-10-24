@@ -14,33 +14,91 @@
         <!-- Header -->
         <header class="header">
             <div class="logo-container">
-                <svg class="logo" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Radioactive symbol with post-apo styling -->
+                <svg class="logo" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
                     <defs>
+                        <!-- Enhanced gradients -->
                         <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" style="stop-color:#ff6b35"/>
-                            <stop offset="100%" style="stop-color:#f7931e"/>
+                            <stop offset="50%" style="stop-color:#f7931e"/>
+                            <stop offset="100%" style="stop-color:#ff4500"/>
                         </linearGradient>
-                        <filter id="glow">
-                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        
+                        <radialGradient id="skullGradient" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#ffd23f"/>
+                            <stop offset="100%" style="stop-color:#ff6b35"/>
+                        </radialGradient>
+                        
+                        <!-- Enhanced glow effect -->
+                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
                             <feMerge> 
                                 <feMergeNode in="coloredBlur"/>
                                 <feMergeNode in="SourceGraphic"/>
                             </feMerge>
                         </filter>
+                        
+                        <!-- Flickering animation -->
+                        <filter id="flicker">
+                            <feGaussianBlur stdDeviation="2" result="blur"/>
+                            <feColorMatrix type="saturate" values="1.5"/>
+                        </filter>
                     </defs>
                     
-                    <!-- Main radioactive symbol -->
-                    <g transform="translate(100,50)" filter="url(#glow)">
-                        <circle cx="0" cy="0" r="5" fill="url(#logoGradient)"/>
-                        <path d="M 0,-25 L -8,-15 L 8,-15 Z" fill="url(#logoGradient)"/>
-                        <path d="M 21.65,12.5 L 13.65,4.5 L 13.65,20.5 Z" fill="url(#logoGradient)"/>
-                        <path d="M -21.65,12.5 L -13.65,20.5 L -13.65,4.5 Z" fill="url(#logoGradient)"/>
+                    <!-- Background radiation effect -->
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="url(#logoGradient)" stroke-width="1" opacity="0.3">
+                        <animate attributeName="r" values="45;55;45" dur="4s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="60" cy="60" r="35" fill="none" stroke="url(#logoGradient)" stroke-width="0.5" opacity="0.2">
+                        <animate attributeName="r" values="30;40;30" dur="3s" repeatCount="indefinite"/>
+                    </circle>
+                    
+                    <!-- Main skull symbol -->
+                    <g transform="translate(60,60)" filter="url(#glow)">
+                        <!-- Skull outline -->
+                        <path d="M -15,-20 Q -20,-25 -15,-30 Q 0,-35 15,-30 Q 20,-25 15,-20 L 15,-5 Q 15,5 10,10 L 5,15 L -5,15 Q -15,5 -15,-5 Z" 
+                              fill="url(#skullGradient)" stroke="#2d1810" stroke-width="1"/>
+                        
+                        <!-- Eye sockets with glow -->
+                        <circle cx="-7" cy="-10" r="4" fill="#000">
+                            <animate attributeName="fill" values="#000;#ff6b35;#000" dur="6s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="7" cy="-10" r="4" fill="#000">
+                            <animate attributeName="fill" values="#000;#ff6b35;#000" dur="6s" begin="3s" repeatCount="indefinite"/>
+                        </circle>
+                        
+                        <!-- Nose -->
+                        <path d="M 0,-5 L -2,2 L 0,3 L 2,2 Z" fill="#2d1810"/>
+                        
+                        <!-- Teeth -->
+                        <rect x="-6" y="5" width="2" height="4" fill="#e0e0e0"/>
+                        <rect x="-3" y="5" width="2" height="5" fill="#e0e0e0"/>
+                        <rect x="0" y="5" width="2" height="4" fill="#e0e0e0"/>
+                        <rect x="3" y="5" width="2" height="5" fill="#e0e0e0"/>
+                        
+                        <!-- Cracks in skull -->
+                        <path d="M -10,-15 L -5,-10" stroke="#2d1810" stroke-width="1" opacity="0.7"/>
+                        <path d="M 8,-18 L 12,-12" stroke="#2d1810" stroke-width="1" opacity="0.7"/>
                     </g>
                     
-                    <!-- Text -->
-                    <text x="100" y="80" text-anchor="middle" class="logo-text" fill="url(#logoGradient)">
-                        WASTELAND DOMINION
+                    <!-- Radioactive symbol overlay -->
+                    <g transform="translate(85,35)" filter="url(#flicker)" opacity="0.6">
+                        <circle cx="0" cy="0" r="2" fill="#39ff14"/>
+                        <path d="M 0,-10 L -3,-6 L 3,-6 Z" fill="#39ff14"/>
+                        <path d="M 8.66,5 L 5.66,8 L 5.66,2 Z" fill="#39ff14"/>
+                        <path d="M -8.66,5 L -5.66,2 L -5.66,8 Z" fill="#39ff14"/>
+                    </g>
+                    
+                    <!-- Title text with better typography -->
+                    <text x="150" y="50" text-anchor="middle" class="logo-text-main" fill="url(#logoGradient)" filter="url(#glow)">
+                        WASTELAND
+                    </text>
+                    <text x="150" y="75" text-anchor="middle" class="logo-text-sub" fill="url(#logoGradient)" filter="url(#glow)">
+                        DOMINION
+                    </text>
+                    
+                    <!-- Subtitle -->
+                    <text x="150" y="95" text-anchor="middle" class="logo-subtitle" fill="#ffd23f" opacity="0.8">
+                        Survival • Strategy • Multiplayer
                     </text>
                 </svg>
             </div>
@@ -56,37 +114,73 @@
         <section class="hero">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    Vítej ve světě po <span class="highlight">nukleární apokalypse</span>
+                    Vítej ve světě <span class="highlight">po nukleární apokalypse</span>
                 </h1>
                 <p class="hero-subtitle">
-                    Rok 2087. Svět, jak jsme ho znali, neexistuje. Z popela civilizace vznikl nový řád - 
-                    kde přežije jen ten nejsilnější, nejchytřejší a nejbezohlednější.
+                    Rok 2087. Velká válka zničila civilizaci během tří hodin. 
+                    Z popela starého světa vznikl nový řád - brutální, bezohledný a nemilosrdný.
+                    <br><br>
+                    <strong>Ty jsi jeden z přeživších.</strong> Vybereš si cestu válečníka, obchodníka, 
+                    technika nebo něco úplně jiného? Každé rozhodnutí může být tvé poslední.
                 </p>
+                
+                <!-- Interactive story elements -->
+                <div class="story-highlight">
+                    <div class="story-box">
+                        <h3>🏙️ 10 Postapokalyptických Měst</h3>
+                        <p>Od bezpečného New Eden po nebezpečné Deadman's Cross</p>
+                    </div>
+                    <div class="story-box">
+                        <h3>⚔️ 500+ Úkolů</h3>
+                        <p>Každý úkol přináší risk, ale i šanci na vzácné poklady</p>
+                    </div>
+                    <div class="story-box">
+                        <h3>🎒 1000+ Předmětů</h3>
+                        <p>Od zarezlých trubek po high-tech plazmatické zbraně</p>
+                    </div>
+                </div>
                 
                 <!-- Auth Buttons -->
                 <div class="auth-buttons">
                     <button class="btn btn-primary" onclick="showRegister()">
-                        🚀 Vstoupit do Hry
+                        🚀 Vstoupit do Wastelandu
                     </button>
                     <button class="btn btn-secondary" onclick="showLogin()">
-                        🔓 Přihlásit se
+                        🔓 Máš už účet? Přihlaš se
                     </button>
+                </div>
+                
+                <!-- Game preview -->
+                <div class="game-preview">
+                    <div class="preview-text">
+                        <p><em>"V wastělandu není místo pro slabé. Každý den je boj o přežití. 
+                        Ale pro ty, kteří jsou dost silní, čekají bohatství a sláva."</em></p>
+                        <span>- Marcus 'Steelheart' Rodriguez, Legion Commander</span>
+                    </div>
                 </div>
             </div>
             
-            <!-- Stats Preview -->
+            <!-- Enhanced Stats Preview with animations -->
             <div class="stats-preview">
-                <div class="stat-item">
+                <div class="stat-item" data-count="10">
                     <span class="stat-number">10</span>
                     <span class="stat-label">Postapokalyptických Měst</span>
+                    <div class="stat-icon">🏙️</div>
                 </div>
-                <div class="stat-item">
+                <div class="stat-item" data-count="500">
                     <span class="stat-number">500+</span>
                     <span class="stat-label">Úkolů k Plnění</span>
+                    <div class="stat-icon">📋</div>
                 </div>
-                <div class="stat-item">
+                <div class="stat-item" data-count="1000">
                     <span class="stat-number">1000+</span>
                     <span class="stat-label">Zbraní a Předmětů</span>
+                    <div class="stat-icon">⚔️</div>
+                </div>
+                <div class="stat-item" data-count="100">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Možností Přežití</span>
+                    <div class="stat-icon">🎯</div>
                 </div>
             </div>
         </section>
@@ -216,35 +310,115 @@
     <div id="registerModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('registerModal')">&times;</span>
-            <h2>🚀 Vstoupit do Wastelandu</h2>
-            <form id="registerForm" action="auth/register.php" method="POST">
-                <input type="text" name="username" placeholder="Uživatelské jméno" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Heslo" required>
-                <input type="password" name="password_confirm" placeholder="Potvrdit heslo" required>
-                <label>
-                    <input type="checkbox" name="terms" required>
-                    Souhlasím s <a href="terms.php">podmínkami</a>
-                </label>
-                <button type="submit" class="btn btn-primary">Vytvořit Účet</button>
+            <div class="modal-header">
+                <h2>🚀 Vstoupit do Wastelandu</h2>
+                <p>Vytvoř si účet a začni své dobrodružství v postapokalyptickém světě</p>
+            </div>
+            
+            <form id="registerForm" action="/auth/register" method="POST">
+                <div class="form-group">
+                    <label for="reg_username">🎮 Uživatelské jméno</label>
+                    <input type="text" id="reg_username" name="username" placeholder="Survivor001" required minlength="3" maxlength="30">
+                    <span class="form-hint">3-30 znaků, pouze písmena, čísla a podtržítka</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg_email">📧 Email</label>
+                    <input type="email" id="reg_email" name="email" placeholder="survivor@wasteland.com" required>
+                    <span class="form-hint">Použijeme pro důležité oznámení o hře</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg_password">🔒 Heslo</label>
+                    <input type="password" id="reg_password" name="password" placeholder="••••••••" required minlength="6">
+                    <span class="form-hint">Minimálně 6 znaků</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg_password_confirm">🔒 Potvrdit heslo</label>
+                    <input type="password" id="reg_password_confirm" name="password_confirm" placeholder="••••••••" required>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="terms" required>
+                        <span class="checkmark"></span>
+                        Souhlasím s <a href="/terms" target="_blank">podmínkami použití</a> a <a href="/privacy" target="_blank">zásadami ochrany osobních údajů</a>
+                    </label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="newsletter">
+                        <span class="checkmark"></span>
+                        Chci dostávat novinky o hře a speciální nabídky
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span class="btn-icon">🚀</span>
+                    Vytvořit Účet Survivora
+                </button>
+                
+                <div class="form-footer">
+                    <p>Už máš účet? <a href="#" onclick="closeModal('registerModal'); showModal('loginModal');">Přihlaš se zde</a></p>
+                </div>
             </form>
+            
+            <div id="registerSuccess" class="success-message" style="display: none;">
+                <div class="success-icon">🎉</div>
+                <h3>Vítej ve Wastelandu!</h3>
+                <p>Tvůj účet byl úspěšně vytvořen. Nyní si můžeš vytvořit svou postavu a začít hrát.</p>
+                <button class="btn btn-primary" onclick="window.location.href='/game/character-setup'">
+                    Pokračovat do hry
+                </button>
+            </div>
         </div>
     </div>
 
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('loginModal')">&times;</span>
-            <h2>🔓 Přihlášení</h2>
-            <form id="loginForm" action="auth/login.php" method="POST">
-                <input type="text" name="username" placeholder="Uživatelské jméno nebo email" required>
-                <input type="password" name="password" placeholder="Heslo" required>
-                <label>
-                    <input type="checkbox" name="remember">
-                    Zapamatovat si mě
-                </label>
-                <button type="submit" class="btn btn-primary">Přihlásit se</button>
-                <a href="auth/forgot.php" class="forgot-link">Zapomenuté heslo?</a>
+            <div class="modal-header">
+                <h2>🔓 Návrat do Wastelandu</h2>
+                <p>Přihlaš se a pokračuj ve svém dobrodružství</p>
+            </div>
+            
+            <form id="loginForm" action="/auth/login" method="POST">
+                <div class="form-group">
+                    <label for="login_username">👤 Uživatelské jméno nebo email</label>
+                    <input type="text" id="login_username" name="username" placeholder="Survivor001 nebo email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login_password">🔒 Heslo</label>
+                    <input type="password" id="login_password" name="password" placeholder="••••••••" required>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember">
+                        <span class="checkmark"></span>
+                        Zapamatovat si mě (7 dní)
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span class="btn-icon">🔓</span>
+                    Vstoupit do Wastelandu
+                </button>
+                
+                <div class="form-footer">
+                    <p><a href="/auth/forgot-password">Zapomněl jsi heslo?</a></p>
+                    <p>Nemáš účet? <a href="#" onclick="closeModal('loginModal'); showModal('registerModal');">Registruj se zde</a></p>
+                </div>
             </form>
+            
+            <div id="loginSuccess" class="success-message" style="display: none;">
+                <div class="success-icon">🎮</div>
+                <h3>Vítej zpět, Survivore!</h3>
+                <p>Přihlášení bylo úspěšné. Přesměrovávám tě do hry...</p>
+            </div>
         </div>
     </div>
 
